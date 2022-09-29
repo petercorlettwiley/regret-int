@@ -6,11 +6,9 @@ import {
   Button,
   Flex,
   Heading,
-  Image,
   Text,
   TextField,
   View,
-  withAuthenticator,
 } from '@aws-amplify/ui-react';
 import { listNotes } from "./graphql/queries";
 import {
@@ -18,7 +16,7 @@ import {
   deleteNote as deleteNoteMutation,
 } from "./graphql/mutations";
 
-const App = ({ signOut }) => {
+const App = () => {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
@@ -30,10 +28,6 @@ const App = ({ signOut }) => {
     const notesFromAPI = apiData.data.listNotes.items;
     await Promise.all(
       notesFromAPI.map(async (note) => {
-        if (note.image) {
-          const url = await Storage.get(note.name);
-          note.image = url;
-        }
         return note;
       })
     );
@@ -43,13 +37,10 @@ const App = ({ signOut }) => {
   async function createNote(event) {
     event.preventDefault();
     const form = new FormData(event.target);
-    const image = form.get("image");
     const data = {
       name: form.get("name"),
       description: form.get("description"),
-      image: image.name,
     };
-    if (!!data.image) await Storage.put(data.name, image);
     await API.graphql({
       query: createNoteMutation,
       variables: { input: data },
@@ -89,12 +80,6 @@ const App = ({ signOut }) => {
             variation="quiet"
             required
           />
-          <View
-            name="image"
-            as="input"
-            type="file"
-            style={{ alignSelf: "end" }}
-          />
           <Button type="submit" variation="primary">
             Create Note
           </Button>
@@ -113,22 +98,14 @@ const App = ({ signOut }) => {
               {note.name}
             </Text>
             <Text as="span">{note.description}</Text>
-            {note.image && (
-              <Image
-                src={note.image}
-                alt={`visual aid for ${notes.name}`}
-                style={{ width: 400 }}
-              />
-            )}
             <Button variation="link" onClick={() => deleteNote(note)}>
               Delete note
             </Button>
           </Flex>
         ))}
       </View>
-      <Button onClick={signOut}>Sign Out</Button>
     </View>
   );
 };
 
-export default withAuthenticator(App);
+export default App;

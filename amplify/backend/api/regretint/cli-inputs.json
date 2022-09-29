@@ -4,8 +4,17 @@
     "apiName": "regretint",
     "serviceName": "AppSync",
     "defaultAuthType": {
-      "mode": "API_KEY",
-      "expirationTime": 7
-    }
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authregretint7bfc0364"
+    },
+    "conflictResolution": {},
+    "additionalAuthTypes": [
+      {
+        "mode": "API_KEY",
+        "expirationTime": 365,
+        "apiKeyExpirationDate": "2023-09-29T00:17:42.498Z",
+        "keyDescription": "regret international api key"
+      }
+    ]
   }
 }
