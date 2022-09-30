@@ -10,96 +10,96 @@ import {
   TextField,
   View,
 } from '@aws-amplify/ui-react';
-import { listNotes } from "./graphql/queries";
+import { listRegrets } from "./graphql/queries";
 import {
-  createNote as createNoteMutation,
-  deleteNote as deleteNoteMutation,
+  createRegret as createRegretMutation,
+  deleteRegret as deleteRegretMutation,
 } from "./graphql/mutations";
 
 const App = () => {
-  const [notes, setNotes] = useState([]);
+  const [regrets, setRegrets] = useState([]);
 
   useEffect(() => {
-    fetchNotes();
+    fetchRegrets();
   }, []);
 
-  async function fetchNotes() {
-    const apiData = await API.graphql({ query: listNotes });
-    const notesFromAPI = apiData.data.listNotes.items;
+  async function fetchRegrets() {
+    const apiData = await API.graphql({ query: listRegrets });
+    const regretsFromAPI = apiData.data.listRegrets.items;
     await Promise.all(
-      notesFromAPI.map(async (note) => {
-        return note;
+      regretsFromAPI.map(async (regret) => {
+        return regret;
       })
     );
-    setNotes(notesFromAPI);
+    setRegrets(regretsFromAPI);
   }
 
-  async function createNote(event) {
+  async function createRegret(event) {
     event.preventDefault();
     const form = new FormData(event.target);
     const data = {
-      name: form.get("name"),
-      description: form.get("description"),
+      text: form.get("text"),
+      location: form.get("location"),
     };
     await API.graphql({
-      query: createNoteMutation,
+      query: createRegretMutation,
       variables: { input: data },
     });
-    fetchNotes();
+    fetchRegrets();
     event.target.reset();
   }
 
-  async function deleteNote({ id, name }) {
-    const newNotes = notes.filter((note) => note.id !== id);
-    setNotes(newNotes);
-    await Storage.remove(name);
+  async function deleteRegret({ id, text }) {
+    const newRegrets = regrets.filter((regret) => regret.id !== id);
+    setRegrets(newRegrets);
+    await Storage.remove(text);
     await API.graphql({
-      query: deleteNoteMutation,
+      query: deleteRegretMutation,
       variables: { input: { id } },
     });
   }
 
   return (
     <View className="App">
-      <Heading level={1}>My Notes App</Heading>
-      <View as="form" margin="3rem 0" onSubmit={createNote}>
+      <Heading level={1}>My Regrets App</Heading>
+      <View as="form" margin="3rem 0" onSubmit={createRegret}>
         <Flex direction="row" justifyContent="center">
           <TextField
-            name="name"
-            placeholder="Note Name"
-            label="Note Name"
+            name="text"
+            placeholder="Regret Text"
+            label="Regret Text"
             labelHidden
             variation="quiet"
             required
           />
           <TextField
-            name="description"
-            placeholder="Note Description"
-            label="Note Description"
+            name="location"
+            placeholder="Regret Location"
+            label="Regret Location"
             labelHidden
             variation="quiet"
             required
           />
           <Button type="submit" variation="primary">
-            Create Note
+            Create Regret
           </Button>
         </Flex>
       </View>
-      <Heading level={2}>Current Notes</Heading>
+      <Heading level={2}>Current Regrets</Heading>
       <View margin="3rem 0">
-        {notes.map((note) => (
+        {regrets.map((regret) => (
           <Flex
-            key={note.id || note.name}
+            key={regret.id || regret.text}
             direction="row"
             justifyContent="center"
             alignItems="center"
           >
             <Text as="strong" fontWeight={700}>
-              {note.name}
+              {regret.text}
             </Text>
-            <Text as="span">{note.description}</Text>
-            <Button variation="link" onClick={() => deleteNote(note)}>
-              Delete note
+            <Text as="span">{regret.location}</Text>
+            <Button variation="link" onClick={() => deleteRegret(regret)}>
+              Delete regret
             </Button>
           </Flex>
         ))}
