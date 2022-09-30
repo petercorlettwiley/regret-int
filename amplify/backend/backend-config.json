@@ -29,22 +29,11 @@
     "regretint": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "auth",
-          "resourceName": "regretint7bfc0364",
-          "attributes": [
-            "UserPoolId"
-          ]
-        }
-      ],
+      "dependsOn": [],
       "output": {
         "authConfig": {
           "defaultAuthentication": {
-            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-            "userPoolConfig": {
-              "userPoolId": "authregretint7bfc0364"
-            }
+            "authenticationType": "AWS_IAM"
           },
           "additionalAuthenticationProviders": [
             {

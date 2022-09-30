@@ -4,8 +4,7 @@
     "apiName": "regretint",
     "serviceName": "AppSync",
     "defaultAuthType": {
-      "mode": "AMAZON_COGNITO_USER_POOLS",
-      "cognitoUserPoolId": "authregretint7bfc0364"
+      "mode": "AWS_IAM"
     },
     "conflictResolution": {},
     "additionalAuthTypes": [
