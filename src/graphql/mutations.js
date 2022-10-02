@@ -9,7 +9,8 @@ export const createRegret = /* GraphQL */ `
     createRegret(input: $input, condition: $condition) {
       id
       text
-      location
+      latitude
+      longitude
       createdAt
       updatedAt
     }
@@ -23,7 +24,8 @@ export const updateRegret = /* GraphQL */ `
     updateRegret(input: $input, condition: $condition) {
       id
       text
-      location
+      latitude
+      longitude
       createdAt
       updatedAt
     }
@@ -37,7 +39,8 @@ export const deleteRegret = /* GraphQL */ `
     deleteRegret(input: $input, condition: $condition) {
       id
       text
-      location
+      latitude
+      longitude
       createdAt
       updatedAt
     }

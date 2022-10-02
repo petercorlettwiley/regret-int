@@ -6,7 +6,8 @@ export const getRegret = /* GraphQL */ `
     getRegret(id: $id) {
       id
       text
-      location
+      latitude
+      longitude
       createdAt
       updatedAt
     }
@@ -22,7 +23,8 @@ export const listRegrets = /* GraphQL */ `
       items {
         id
         text
-        location
+        latitude
+        longitude
         createdAt
         updatedAt
       }

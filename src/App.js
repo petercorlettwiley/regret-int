@@ -18,9 +18,13 @@ import {
 
 const App = () => {
   const [regrets, setRegrets] = useState([]);
+  const [latitude, setLatitude] = useState([]);
+  const [longitude, setLongitude] = useState([]);
+  const [status, setStatus] = useState([]);
 
   useEffect(() => {
     fetchRegrets();
+    getLocation();
   }, []);
 
   async function fetchRegrets() {
@@ -39,7 +43,8 @@ const App = () => {
     const form = new FormData(event.target);
     const data = {
       text: form.get("text"),
-      location: form.get("location"),
+      latitude: latitude,
+      longitude: longitude
     };
     await API.graphql({
       query: createRegretMutation,
@@ -59,6 +64,23 @@ const App = () => {
     });
   }
 
+  const getLocation = () => {
+    if (!navigator.geolocation) {
+      setStatus('Geolocation is not supported by your browser');
+    } else {
+      setStatus('Locating...');
+      navigator.geolocation.getCurrentPosition((position) => {
+        setStatus(null);
+        setLatitude(position.coords.latitude);
+        setLongitude(position.coords.longitude);
+        console.log(status);
+      }, () => {
+        setStatus('Unable to retrieve your location');
+        console.log(status);
+      });
+    }
+  }
+
   return (
     <View className="App">
       <Heading level={1}>My Regrets App</Heading>
@@ -72,14 +94,9 @@ const App = () => {
             variation="quiet"
             required
           />
-          <TextField
-            name="location"
-            placeholder="Regret Location"
-            label="Regret Location"
-            labelHidden
-            variation="quiet"
-            required
-          />
+          <p>{status}</p>
+          {latitude && <p>Latitude: {latitude}</p>}
+          {longitude && <p>Longitude: {longitude}</p>}
           <Button type="submit" variation="primary">
             Create Regret
           </Button>
@@ -97,7 +114,8 @@ const App = () => {
             <Text as="strong" fontWeight={700}>
               {regret.text}
             </Text>
-            <Text as="span">{regret.location}</Text>
+            <Text as="span">{regret.latitude}</Text>
+            <Text as="span">{regret.longitude}</Text>
             <Button variation="link" onClick={() => deleteRegret(regret)}>
               Delete regret
             </Button>

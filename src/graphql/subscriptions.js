@@ -6,7 +6,8 @@ export const onCreateRegret = /* GraphQL */ `
     onCreateRegret {
       id
       text
-      location
+      latitude
+      longitude
       createdAt
       updatedAt
     }
@@ -17,7 +18,8 @@ export const onUpdateRegret = /* GraphQL */ `
     onUpdateRegret {
       id
       text
-      location
+      latitude
+      longitude
       createdAt
       updatedAt
     }
@@ -28,7 +30,8 @@ export const onDeleteRegret = /* GraphQL */ `
     onDeleteRegret {
       id
       text
-      location
+      latitude
+      longitude
       createdAt
       updatedAt
     }
