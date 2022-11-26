@@ -15,6 +15,11 @@ import {
   createRegret as createRegretMutation,
   deleteRegret as deleteRegretMutation,
 } from "./graphql/mutations";
+import { MapComponent } from "./components/map.component.js";
+import {
+  Wrapper,
+  Status
+} from "@googlemaps/react-wrapper";
 
 const App = () => {
   const [regrets, setRegrets] = useState([]);
@@ -119,6 +124,12 @@ const App = () => {
           </Flex>
         ))}
       </View>
+      <Wrapper apiKey={"AIzaSyDiv6JXfsU3Y4TwB3oNdxfeMHOqDZov4Jg"} >
+        <MapComponent
+          center={{ lat: -34.397, lng: 150.644 }}
+          zoom={4}
+          />
+        </Wrapper>
     </View>
   );
 };
