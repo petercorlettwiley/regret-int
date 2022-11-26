@@ -73,10 +73,8 @@ const App = () => {
         setStatus(null);
         setLatitude(position.coords.latitude);
         setLongitude(position.coords.longitude);
-        console.log(status);
       }, () => {
         setStatus('Unable to retrieve your location');
-        console.log(status);
       });
     }
   }
@@ -94,7 +92,6 @@ const App = () => {
             variation="quiet"
             required
           />
-          <p>{status}</p>
           {latitude && <p>Latitude: {latitude}</p>}
           {longitude && <p>Longitude: {longitude}</p>}
           <Button type="submit" variation="primary">
