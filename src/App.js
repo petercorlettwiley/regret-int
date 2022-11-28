@@ -118,18 +118,20 @@ const App = () => {
             </Text>
             <Text as="span">{regret.latitude}</Text>
             <Text as="span">{regret.longitude}</Text>
+            <Wrapper apiKey={""} >
+              <MapComponent
+                center={{ lat: parseFloat(regret.latitude), lng: parseFloat(regret.longitude) }}
+                zoom={13}
+              >
+                <Marker position={position} />
+              </MapComponent>
+            </Wrapper>
             <Button variation="link" onClick={() => deleteRegret(regret)}>
               Delete regret
             </Button>
           </Flex>
         ))}
       </View>
-      <Wrapper apiKey={"AIzaSyDiv6JXfsU3Y4TwB3oNdxfeMHOqDZov4Jg"} >
-        <MapComponent
-          center={{ lat: -34.397, lng: 150.644 }}
-          zoom={4}
-          />
-        </Wrapper>
     </View>
   );
 };

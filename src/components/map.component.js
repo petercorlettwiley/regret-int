@@ -11,8 +11,9 @@ const render = (status: Status): ReactElement => {
 
 
 
-function MapComponent({ center, zoom, }) {
+function MapComponent({ center, zoom }) {
     const ref = useRef();
+    const { children };
   
     useEffect(() => {
       new window.google.maps.Map(ref.current, {
@@ -20,7 +21,19 @@ function MapComponent({ center, zoom, }) {
         zoom,
       });
     });
-    return <div ref={ref} id="map" />;
+
+  return (
+    <>
+      <div ref={ref} />
+      {React.Children.map(children, (child) => {
+        if (React.isValidElement(child)) {
+          // set the map prop on the child component
+          // @ts-ignore
+          return React.cloneElement(child, { map });
+        }
+      })}
+    </>
+  );
 }
 
 export { MapComponent }
